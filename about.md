@@ -4,12 +4,14 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+I'm 25 software developer from Gdańsk, Poland.
 
-### More Information
+I've created software since 2009, commercially since 2011.
 
-A place to include any other types of information that you'd like to include about yourself.
+It's tech blog and I'll try to post tips which I found useful and worth to share with the rest of the world :)
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+You can reach me via email, feel free to ask (almost) anything :)
+
+[mklimus@gmail.com](mailto:mklimus@gmail.com)
