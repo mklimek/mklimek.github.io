@@ -14,7 +14,7 @@ Hopefully, we can use some part of Material Design with devices running **Androi
 I wrote simple app which displays images in grid with possibility to pick them to see them in full size with ActionBar colors based on picked image. App uses new classes: [Palette](http://developer.android.com/reference/android/support/v7/graphics/Palette.html) and [Toolbar](http://developer.android.com/reference/android/support/v7/widget/Toolbar.html).
 
 
-It's looks like this:<br /><br />
+It looks like this:<br /><br />
 ![first screenshot]({{site.url}}/images/palette-example1.png)
 ![second screenshot]({{site.url}}/images/palette-example2.png)
 ![third screenshot]({{site.url}}/images/palette-example3.png)
