@@ -105,6 +105,4 @@ You can read about `SslUtils` in [this post](http://square.github.io/okhttp/).
 
 If you have any tips or thoughts about this method, let me know about it :)
 
-See this post on my [personal blog](http://mklimek.github.io/logging-with-retrofit2/).
-
 
