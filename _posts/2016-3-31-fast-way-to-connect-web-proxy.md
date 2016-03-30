@@ -6,7 +6,7 @@ comments: true
 author: mateuszklimek
 ---
 
-Configuration Android device to connect to web proxy running on development desktop machine is tedious.
+Configuration Android device to connect to web proxy running on development build machine is tedious.
 You have to make the same steps over and over again on every device you want to debug *HTTP* traffic.<br/ >
 It goes like this:<br/>
 
@@ -104,7 +104,5 @@ The last thing is to set up CA certificate of the web proxy to make *HTTP* conne
 You can read about `SslUtils` in [this post](http://square.github.io/okhttp/).
 
 If you have any tips or thoughts about this method, let me know about it :)
-
-See this post on my [personal blog](http://mklimek.github.io/logging-with-retrofit2/).
 
 
