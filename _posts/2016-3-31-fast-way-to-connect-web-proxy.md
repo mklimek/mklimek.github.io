@@ -10,8 +10,8 @@ Configuration Android device to connect to web proxy running on development buil
 You have to make the same steps over and over again on every device you want to debug *HTTP* traffic.<br/ >
 It goes like this:<br/>
 
-1. Check development machine IP address.
-2. Install proxy CA certificate on a mobile device in order to spy *HTTPS* traffic.
+1. Check development machine *IP* address.
+2. Install proxy *CA* certificate on a mobile device in order to spy *HTTPS* traffic.
 3. Configure wifi connection on the mobile device to connect through the proxy (by typing it by hand).
 
 Sometimes I have to enable proxy for a moment and disable it afterward, then... repeat it a couple of times.<br/>
@@ -29,7 +29,7 @@ If flag is set to `true` app connects to web proxy automatically.<br/>
 You earned a few things here:
 
 * It's transparent for a developer. You don't care about typing IP address and port.
-* Installs CA certificate at runtime. You don't have to install it by hand on the device. You don't even have to have password for credential storage ;)
+* Installs *CA* certificate at runtime. You don't have to install it by hand on the device. You don't even have to have password for credential storage ;)
 * Because the device isn't directly connected, web proxy can see traffic from your app only (other apps' traffic isn't visible).
 * You can dynamically enable/disable proxy for *HTTP* client in runtime so you can pass some requests over the proxy. 
 * It's safer. You don't install proxy or any third party certificate on the system directly.
@@ -78,7 +78,7 @@ preBuild.dependsOn getBuildMachineLocalIp
 I made one more thing here. <br/>
 Copied value of `project.ext.proxy` to `BuildConfig.BUILD_MACHINE_LOCAL_IP` to have access to *IP* address in code.
 
-The last part is to set up our proxy for *HTTP* client in code.
+The last part is to set up our proxy for *HTTP* client.
 {% highlight java %}
 
 private void setProxy(OkHttpClient client) {
@@ -98,11 +98,12 @@ use client as you wish eg. with Retrofit
 */
 {% endhighlight %}
 There's simple `if` statement which enables proxy when flag is active.<br/>
-Probably, you don't want to have proxy connection for release build so I check also build type here.<br/>
-The last thing is to set up CA certificate of the web proxy to make *HTTP* connections visible on it. <br/>
+Probably, you don't want to have proxy connection for release builds so I also check build type here.<br/>
+The last thing is to set up *CA* certificate of the web proxy to make *HTTP* connections visible on it. <br/>
 `SslUtils` is simple helper class which I created to trust given certificate despite system settings. <br/>
-You can read about `SslUtils` in [this post](http://square.github.io/okhttp/).
+You can read about `SslUtils` in [this post](https://mklimek.github.io/trust-specific-certificate-on-jvm/).
 
 If you have any tips or thoughts about this method, let me know about it :)
+
 
 
