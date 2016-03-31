@@ -101,7 +101,7 @@ There's simple `if` statement which enables proxy when flag is active.<br/>
 Probably, you don't want to have proxy connection for release builds so I also check build type here.<br/>
 The last thing is to set up *CA* certificate of the web proxy to make *HTTP* connections visible on it. <br/>
 `SslUtils` is simple helper class which I created to trust given certificate despite system settings. <br/>
-You can read about `SslUtils` in [this post](https://mklimek.github.io/trust-specific-certificate-on-jvm/).
+You can read about `SslUtils` in [this post](https://mklimek.github.io/trust-specific-certificate-on-jvm/) and download it from [GitHub](https://github.com/mklimek/ssl-utils-android).
 
 If you have any tips or thoughts about this method, let me know about it :)
 
