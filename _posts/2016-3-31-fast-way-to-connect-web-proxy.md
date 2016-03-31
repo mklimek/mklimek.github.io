@@ -8,7 +8,7 @@ author: mateuszklimek
 
 Configuring Android device to connect to the web proxy running on development build machine is tedious.
 You have to make the same steps over and over again on every device you want to debug *HTTP* traffic.
-<br/ >
+<br/>
 It goes like this:
 <br/>
 
