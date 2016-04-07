@@ -8,7 +8,7 @@ I'm 25 software developer from Gdańsk, Poland.
 
 I've been creating software since 2009, commercially since 2011.
 
-Right now I'm working in [BrightInventions](http://blog.brightinventions.pl/) which is sofware house in Gdańsk.
+Right now I'm working in [BrightInventions](http://blog.brightinventions.pl/) which is software house in Gdańsk.
 
 This is a tech blog mainly about Android, iOS and JavaScript, but keep looking for other interesting stuff.
 
