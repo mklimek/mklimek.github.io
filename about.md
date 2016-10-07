@@ -4,11 +4,9 @@ title: About
 permalink: /about/
 ---
 
-I'm 25 software developer from Gdańsk, Poland.
+My name is Mateusz Klimek I'm 25 software developer who currently lives in Manchester, UK.
 
 I've been creating software since 2009, commercially since 2011.
-
-Right now I'm working in [BrightInventions](http://blog.brightinventions.pl/) which is software house in Gdańsk.
 
 This is a tech blog mainly about Android, iOS and JavaScript, but keep looking for other interesting stuff.
 
