@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-My name is Mateusz Klimek I'm 25 software developer who currently lives in Manchester, UK.
+My name is Mateusz Klimek I'm software developer who currently lives in Manchester, UK.
 
 I've been creating software since 2009, commercially since 2011.
 
