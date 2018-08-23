@@ -6,9 +6,9 @@ comments: true
 author: mateuszklimek
 ---
 
-I wrote simple helper which allow loading specific certificate to [SSLContext](https://docs.oracle.com/javase/7/docs/api/javax/net/ssl/SSLContext.html).<br/>
-You can use it to support *HTTPS* connections which rely on a untrusted certificate. <br/>
-By untrusted certificate, I mean this one which server is certified but system denies it (doesn't trust it) for some reason.<br/>
+I wrote a simple helper which allows loading specific certificate into [SSLContext](https://docs.oracle.com/javase/7/docs/api/javax/net/ssl/SSLContext.html).<br/>
+You can use it to support untrusted certificate *HTTPS* connections. <br/>
+By untrusted certificate I mean this one, which server is certified but system denies it (doesn't trust it) for some reason.<br/>
 I found it very useful to load particular certificate dynamically.
 
 For example:
