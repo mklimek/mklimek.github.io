@@ -17,4 +17,4 @@ I'll try to post tips which I find useful and worth to share with the rest of th
 
 You can reach me via email, feel free to ask (almost) anything :)
 
-[mklimus@gmail.com](mailto:mateusz.klimek.art@gmail.com)
+[mateusz.klimek.art@gmail.com](mailto:mateusz.klimek.art@gmail.com)
