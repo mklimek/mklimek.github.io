@@ -1,0 +1,79 @@
+---
+---
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        button {
+            height: 60px;
+            font-size : 20px;
+        }
+    </style>
+    </head>
+    <script src="{{site.url}}/js/howler.min.js"></script>
+    <script>
+        var sound = new Howl({
+        src: ['{{site.url}}/mp3/rhythm.mp3'],
+        sprite: {
+            note1: [0, 4000],
+            note2: [6800, 4000],
+            note3: [12500, 4000],
+            note4: [17800, 4000],
+            note5: [23000, 4000],
+            note6: [28900, 4000],
+            rest1: [34000, 5000],
+            rest2: [39300, 9000],
+            rest3: [50000, 13000],
+            rest4: [63700, 6000],
+            rest5: [71000, 5000],
+            rest6: [79600, 5000],
+            rest7: [88100, 6000],
+            rest8: [98300, 9000],
+            rest9: [109400, 9000],
+        }
+        });
+
+        function playNote(number) {
+            sound.stop();
+            sound.play('note' + number);
+            console.log('note' + number);
+        }
+        function playRest(number) {
+            sound.stop();
+            sound.play('rest' + number);
+            console.log('rest' + number);
+        }
+
+    </script>
+    <body>
+
+        <h2>Notes patterns</h2>
+        <img src="{{site.url}}/images/1.png" width="500px" />
+        <button onclick="playNote(1)">First</button><br/>
+        <img src="{{site.url}}/images/2.png" width="500px" />
+        <button onclick="playNote(2)">Second</button><br/>
+        <img src="{{site.url}}/images/3.png" width="500px" />
+        <button onclick="playNote(3)">Third</button><br/>
+        <img src="{{site.url}}/images/4.png" width="500px" />
+        <button onclick="playNote(4)">Fourth</button><br/>
+        <img src="{{site.url}}/images/5.png" width="500px" />
+        <button onclick="playNote(5)">Fifth</button><br/>
+        <img src="{{site.url}}/images/6.png" width="500px" />
+        <button onclick="playNote(6)">Sixth</button><br/>
+
+        <img src="{{site.url}}/images/equivalent.png" width="700px" alt="equivalent" />
+
+        <h2>Rests patterns</h2>
+        <img src="{{site.url}}/images/rests.png" width="700px" alt="rests" />
+        <br/>
+        <button onclick="playRest(1)">First</button>
+        <button onclick="playRest(2)">Second</button>
+        <button onclick="playRest(3)">Third</button>
+        <button onclick="playRest(4)">Fourth</button>
+        <button onclick="playRest(5)">Fifth</button>
+        <button onclick="playRest(6)">Sixth</button>
+        <button onclick="playRest(7)">Seventh</button>
+        <button onclick="playRest(8)">Eight</button>
+        <button onclick="playRest(9)">Ninth and tenth</button>
+    </body>
+</html>
