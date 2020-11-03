@@ -1,0 +1,48 @@
+---
+---
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        button {
+            height: 60px;
+            font-size : 35px;
+        }
+        input {
+            font-size: 35px;
+        }
+        #result {
+            font-size: 35px;
+            font-weight: 400;
+        }
+    </style>
+    </head>
+    <script src="{{site.url}}/js/teoria.js"></script>
+    <script>
+        function check() {
+            var chordName = document.getElementById('chord-input').value;
+            result = document.getElementById('result');
+            result.textContent = '';
+            try {
+                var chord = teoria.chord(chordName);
+                notes = chord.notes();
+                notes.forEach(note => {
+                    result.textContent += note.toString(true) + ' ';
+                });
+            } catch (e) {
+                var msg = `chord ${chordName} is unknown`;
+                console.log(msg);
+                result.textContent = msg;
+            }
+        }
+    </script>
+    <body>
+
+        <h2>Guess chord notes</h2>
+        <input type="text" value="C-7" id="chord-input" />
+        <br/><br/>
+        <button onclick="check()">Check</button>
+        <br/>
+        <p id="result"></p>
+    </body>
+</html>
