@@ -4,6 +4,9 @@
 <html>
     <head>
     <style>
+        p {
+            font-size: 45px;
+        }
         button {
             height: 60px;
             font-size : 35px;
@@ -19,30 +22,53 @@
     </head>
     <script src="{{site.url}}/js/teoria.js"></script>
     <script>
-        function check() {
-            var chordName = document.getElementById('chord-input').value;
-            result = document.getElementById('result');
-            result.textContent = '';
-            try {
-                var chord = teoria.chord(chordName);
-                notes = chord.notes();
-                notes.forEach(note => {
-                    result.textContent += note.toString(true) + ' ';
-                });
-            } catch (e) {
-                var msg = `chord ${chordName} is unknown`;
-                console.log(msg);
-                result.textContent = msg;
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+        }
+        function generate() {
+            r = getRandomInt(0, 12);
+            roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+            root = roots[r];
+
+            q = getRandomInt(0, 3);
+            qualities = ['maj7', '-7', '7'];
+            quality = qualities[q];
+
+            d = getRandomInt(0, 3);
+            degrees = ['third', 'fifth', 'seventh'];
+            degree = degrees[d];
+
+            console.log(`You need to guess what is ${degree} of ${root}${quality} chord`);
+            return {
+                root: root,
+                quality: quality,
+                degree: degree
             }
+        }
+        function check() {
+            generated = generate();
+            delay = parseInt(document.getElementById('delay').value);
+            answer = document.getElementById('answer');
+            question = document.getElementById('question');
+            question.textContent = `What is ${generated.degree} of ${generated.root}${generated.quality} ?`;
+            answer.textContent = '';
+            setTimeout(function() {
+                note = teoria.note(`${generated.root}4`);
+                chord = note.chord(generated.quality);
+                answer.textContent = `${generated.degree} is ${chord.get(generated.degree).toString(true)} (${chord.notes().map(note => note.toString(true))})`;
+            }, delay*1000);
         }
     </script>
     <body>
 
         <h2>Guess chord notes</h2>
-        <input type="text" value="C-7" id="chord-input" />
+        <input type="text" id="delay" value="3" />
         <br/><br/>
-        <button onclick="check()">Check</button>
+        <button onclick="check()">Next chord</button>
         <br/>
-        <p id="result"></p>
+        <p id="question"></p>
+        <p id="answer"></p>
     </body>
 </html>
