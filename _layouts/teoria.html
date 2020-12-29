@@ -28,6 +28,9 @@
     </head>
     <script src="{{site.url}}/js/teoria.js"></script>
     <script>
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -82,8 +85,8 @@
                 note = teoria.note(`${generated.root}4`);
                 chord = note.chord(generated.quality);
                 answerDegree.textContent = `${generated.degree} is`;
-                answerRoot.textContent = `${chord.get(generated.degree).toString(true)}`.toUpperCase();
-                answerChord.textContent = `(${chord.notes().map(note => note.toString(true))})`;
+                answerRoot.textContent = capitalizeFirstLetter(`${chord.get(generated.degree).toString(true)}`);
+                answerChord.textContent = `(${chord.notes().map(note => capitalizeFirstLetter(note.toString(true)))})`;
             }, delay*1000);
         }
     </script>
