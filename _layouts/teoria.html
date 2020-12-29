@@ -4,7 +4,7 @@
 <html>
     <head>
     <style>
-        p {
+        span,p {
             font-size: 45px;
         }
         button {
@@ -13,6 +13,12 @@
         }
         input {
             font-size: 35px;
+        }
+        input[type='checkbox'] {
+            transform: scale(2.0);
+        }
+        label {
+            font-size: 25px;
         }
         #result {
             font-size: 35px;
@@ -27,6 +33,11 @@
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
         }
+        function fifthsEnabledClicked() {
+            fifthsCheckbox = document.getElementById('fifths-enabled');
+            fifthsCheckbox.click();
+            console.log(fifthsCheckbox.checked);
+        }
         function generate() {
             r = getRandomInt(0, 12);
             roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
@@ -36,8 +47,16 @@
             qualities = ['maj7', '-7', '7'];
             quality = qualities[q];
 
-            d = getRandomInt(0, 3);
-            degrees = ['third', 'fifth', 'seventh'];
+            
+            fifthsCheckbox = document.getElementById('fifths-enabled');
+            if(fifthsCheckbox.checked)
+            {
+                d = getRandomInt(0, 3);
+                degrees = ['third', 'fifth', 'seventh'];
+            } else {
+                d = getRandomInt(0, 2);
+                degrees = ['third', 'seventh'];
+            }
             degree = degrees[d];
 
             console.log(`You need to guess what is ${degree} of ${root}${quality} chord`);
@@ -50,14 +69,21 @@
         function check() {
             generated = generate();
             delay = parseInt(document.getElementById('delay').value);
-            answer = document.getElementById('answer');
-            question = document.getElementById('question');
-            question.textContent = `What is ${generated.degree} of ${generated.root}${generated.quality} ?`;
-            answer.textContent = '';
+            answerDegree = document.getElementById('answer-degree');
+            answerRoot = document.getElementById('answer-root');
+            answerChord = document.getElementById('answer-chord');
+            questionDegree = document.getElementById('question-degree');
+            questionChord = document.getElementById('question-chord');
+
+            questionDegree.textContent = `${generated.degree}`;
+            questionChord.textContent = ` of ${generated.root}${generated.quality} ?`;
+            answerDegree.textContent = answerRoot.textContent = answerChord.textContent = '';
             setTimeout(function() {
                 note = teoria.note(`${generated.root}4`);
                 chord = note.chord(generated.quality);
-                answer.textContent = `${generated.degree} is ${chord.get(generated.degree).toString(true)} (${chord.notes().map(note => note.toString(true))})`;
+                answerDegree.textContent = `${generated.degree} is`;
+                answerRoot.textContent = `${chord.get(generated.degree).toString(true)}`.toUpperCase();
+                answerChord.textContent = `(${chord.notes().map(note => note.toString(true))})`;
             }, delay*1000);
         }
     </script>
@@ -66,9 +92,19 @@
         <h2>Guess chord notes</h2>
         <input type="text" id="delay" value="3" />
         <br/><br/>
+        <div>
+            <input type="checkbox" name="fifths-enabled" id="fifths-enabled" checked onclick="fifthsEnabledClicked()"/>
+            <label for="fifths-enabled">Fifths enabled</label>
+        </div>
+        <br/><br/>
         <button onclick="check()">Next chord</button>
         <br/>
-        <p id="question"></p>
-        <p id="answer"></p>
+        <span>What is </span>
+        <span id="question-degree" style="font-weight: 800;"></span>
+        <span id="question-chord"></span>
+        <br />
+        <span id="answer-degree"></span>
+        <span id="answer-root" style="font-weight: 800;"></span>
+        <span id="answer-chord"></span>
     </body>
 </html>
