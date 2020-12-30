@@ -16,6 +16,10 @@
             instruments: "piano"
         });
 
+        Tone.loaded().then(() => {
+	        document.getElementById('play').disabled = false;
+        });
+
         function play() {
             piano.toMaster();
             piano.triggerAttack("A3");
@@ -25,6 +29,6 @@
     <body>
 
         <h2>Can you hear it?</h2>
-        <button onclick="play()">Play</button>
+        <button id="play" onclick="play()" disabled>Play</button>
     </body>
 </html>
