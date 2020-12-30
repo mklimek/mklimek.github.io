@@ -17,6 +17,7 @@
         });
 
         Tone.loaded().then(() => {
+	        document.getElementById('play').textContent = 'Play';
 	        document.getElementById('play').disabled = false;
         });
 
@@ -29,6 +30,6 @@
     <body>
 
         <h2>Can you hear it?</h2>
-        <button id="play" onclick="play()" disabled>Play</button>
+        <button id="play" onclick="play()" disabled>Loading...</button>
     </body>
 </html>
