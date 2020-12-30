@@ -1,0 +1,30 @@
+---
+---
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        span,p {
+            font-size: 45px;
+        }
+    </style>
+    </head>
+    <script src="{{site.url}}/js/tonejs.js"></script>
+    <script src="{{site.url}}/js/tonejs-instruments.js"></script>
+    <script>
+        var piano = SampleLibrary.load({
+            instruments: "piano"
+        });
+
+        function play() {
+            piano.toMaster();
+            piano.triggerAttack("A3");
+            piano.triggerAttack("Eb4");
+        }
+    </script>
+    <body>
+
+        <h2>Can you hear it?</h2>
+        <button onclick="play()">Play</button>
+    </body>
+</html>
