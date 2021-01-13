@@ -11,25 +11,95 @@
     </head>
     <script src="{{site.url}}/js/tonejs.js"></script>
     <script src="{{site.url}}/js/tonejs-instruments.js"></script>
+    <script src="{{site.url}}/js/teoria.js"></script>
     <script>
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+        }
+        function mapIntervalNametoValue(intervalName) {
+            switch (intervalName) {
+                case 'minor-second':
+                    return 'm2';
+                case 'major-second':
+                    return 'M2'
+                case 'minor-third':
+                    return 'm3'
+                case 'major-third':
+                    return 'M3'
+            }
+        }
         var piano = SampleLibrary.load({
             instruments: "piano"
         });
+        var enabledIntervals = [];
+        enabledIntervals['minor-second'] = true;
+        enabledIntervals['major-second'] = true;
+        enabledIntervals['minor-third'] = true;
+        enabledIntervals['major-third'] = false;
 
         Tone.loaded().then(() => {
 	        document.getElementById('play').textContent = 'Play';
 	        document.getElementById('play').disabled = false;
+	        document.getElementById('stop').textContent = 'Stop';
+            document.getElementById('stop').disabled = false;
         });
 
         function play() {
-            piano.toMaster();
-            piano.triggerAttack("A3");
-            piano.triggerAttack("Eb4");
+            piano.toMaster(); 
+            Tone.Transport.scheduleRepeat((t) => {
+                console.log(t);
+                delay = 0;
+                for(interval in enabledIntervals) {
+                    if(enabledIntervals[interval]) {
+                        x = getRandomInt(0, 12);
+                        roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+                        randomRoot = roots[x];
+
+                        x = getRandomInt(0, 3);
+                        octaves = [3, 4, 5];
+                        randomOctave = octaves[x];
+
+                        note = teoria.note(randomRoot+randomOctave);
+                        secondNote = note.interval(mapIntervalNametoValue(interval));
+                        console.log(`played ${note} and ${secondNote} interval is ${interval}`);
+                        if(delay != 0) {
+                            piano.triggerAttack(note.toString(), '+' + delay + 'n');
+                            piano.triggerAttack(secondNote.toString(), '+' + delay + 'n');
+//                            console.log(t + delay+'n')
+                        } else {
+                            piano.triggerAttack(note.toString());
+                            piano.triggerAttack(secondNote.toString());
+                        }
+                    }
+                    delay += 4;
+                }
+            }, "1m");
+            Tone.Transport.bpm.value = 50;
+            Tone.start();
+            Tone.Transport.start();
+        }
+        function stop() {
+            Tone.Transport.stop();
+        }
+        function checkboxClick(id) {
+            enabledIntervals[id] = document.getElementById(id).checked
+            console.log(`${id} :`, enabledIntervals[id]);
         }
     </script>
     <body>
 
         <h2>Can you hear it?</h2>
-        <button id="play" onclick="play()" disabled>Loading...</button>
+        <button id="play" onclick="play()" disabled>Loading...</button><br />
+        <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
+        <input type="checkbox" name="minor-second" id="minor-second" checked onclick="checkboxClick('minor-second')"/>
+        <label for="minor-second">sekund mała</label>
+        <input type="checkbox" name="major-second" id="major-second" checked onclick="checkboxClick('major-second')"/>
+        <label for="major-second">sekund wielka</label><br/>
+        <input type="checkbox" name="minor-third" id="minor-third" checked onclick="checkboxClick('minor-third')"/>
+        <label for="minor-third">tercja mała</label>
+        <input type="checkbox" name="major-third" id="major-third" checked onclick="checkboxClick('major-third')"/>
+        <label for="major-third">tercja wielka</label><br/>
     </body>
 </html>
