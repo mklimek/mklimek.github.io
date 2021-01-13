@@ -69,8 +69,12 @@
             roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
             randomRoot = roots[x];
 
-            x = getRandomInt(0, 3);
-            octaves = [3, 4, 5];
+            beginEnd = document.getElementById('octaves-range').value.split('-');
+            beginEnd[0] = parseInt(beginEnd[0])
+            beginEnd[1] = parseInt(beginEnd[1])
+            diff = beginEnd[1] + 1 - beginEnd[0];
+            x = getRandomInt(0, diff);
+            octaves = Array.from({length: diff}, (_, i) => i + beginEnd[0])
             randomOctave = octaves[x];
 
             note = teoria.note(randomRoot+randomOctave);
@@ -111,6 +115,8 @@
         <h2>Can you hear it?</h2>
         <button id="play" onclick="play()" disabled>Loading...</button><br />
         <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
+        <label for="octaves-range">Zakres oktaw</label>
+        <input id="octaves-range" name="octaves-range" type="text" value="3-5"><br/>
         <input type="checkbox" name="minor-second" id="minor-second" checked onclick="checkboxClick('minor-second')"/>
         <label for="minor-second">sekund mała</label>
         <input type="checkbox" name="major-second" id="major-second" checked onclick="checkboxClick('major-second')"/>
