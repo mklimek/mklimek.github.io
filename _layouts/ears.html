@@ -18,74 +18,92 @@
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
         }
+        function filter(array) {
+            var result = [];
+            for(key in array) {
+                if(array[key]) result.push(key)
+            }
+            return result;
+        }
         function mapIntervalNametoValue(intervalName) {
             switch (intervalName) {
-                case 'minor-second':
-                    return 'm2';
-                case 'major-second':
-                    return 'M2'
-                case 'minor-third':
-                    return 'm3'
-                case 'major-third':
-                    return 'M3'
+                case 'minor-second': return 'm2';
+                case 'major-second': return 'M2';
+                case 'minor-third': return 'm3';
+                case 'major-third': return 'M3';
+                case 'perfect-fourth': return 'P4';
+                case 'tritone': return 'A4';
+                case 'perfect-fifth': return 'P5';
+                case 'minor-sixth': return 'm6';
+                case 'major-sixth': return 'M6';
+                case 'minor-seventh': return 'm7';
+                case 'major-seventh': return 'M7';
             }
         }
         var piano = SampleLibrary.load({
             instruments: "piano"
         });
+        var checkboxes = [];
         var enabledIntervals = [];
-        enabledIntervals['minor-second'] = true;
-        enabledIntervals['major-second'] = true;
-        enabledIntervals['minor-third'] = true;
-        enabledIntervals['major-third'] = false;
+        var index = 0;
 
         Tone.loaded().then(() => {
 	        document.getElementById('play').textContent = 'Play';
 	        document.getElementById('play').disabled = false;
 	        document.getElementById('stop').textContent = 'Stop';
             document.getElementById('stop').disabled = false;
+
+            checkboxClick('minor-second');
+            checkboxClick('major-second');
+            checkboxClick('minor-third');
+            checkboxClick('major-third');
+            checkboxClick('perfect-fourth');
+            checkboxClick('tritone');
+            checkboxClick('perfect-fifth');
         });
 
+        function playNextInterval() {
+            interval = enabledIntervals[index];
+            console.log(`interval is ${interval}`);
+            x = getRandomInt(0, 12);
+            roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+            randomRoot = roots[x];
+
+            x = getRandomInt(0, 3);
+            octaves = [3, 4, 5];
+            randomOctave = octaves[x];
+
+            note = teoria.note(randomRoot+randomOctave);
+            secondNote = note.interval(mapIntervalNametoValue(interval));
+            console.log(`played ${note} and ${secondNote}`);
+            piano.triggerAttack(note.toString());
+            piano.triggerAttack(secondNote.toString());
+
+            index++;
+            if(index >= enabledIntervals.length) {
+                index = 0;
+            }
+        }
+
         function play() {
-            piano.toMaster(); 
+            piano.toMaster();
+            index = 0; 
             Tone.Transport.scheduleRepeat((t) => {
-                console.log(t);
-                delay = 0;
-                for(interval in enabledIntervals) {
-                    if(enabledIntervals[interval]) {
-                        x = getRandomInt(0, 12);
-                        roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
-                        randomRoot = roots[x];
-
-                        x = getRandomInt(0, 3);
-                        octaves = [3, 4, 5];
-                        randomOctave = octaves[x];
-
-                        note = teoria.note(randomRoot+randomOctave);
-                        secondNote = note.interval(mapIntervalNametoValue(interval));
-                        console.log(`played ${note} and ${secondNote} interval is ${interval}`);
-                        if(delay != 0) {
-                            piano.triggerAttack(note.toString(), '+' + delay + 'n');
-                            piano.triggerAttack(secondNote.toString(), '+' + delay + 'n');
-//                            console.log(t + delay+'n')
-                        } else {
-                            piano.triggerAttack(note.toString());
-                            piano.triggerAttack(secondNote.toString());
-                        }
-                    }
-                    delay += 4;
-                }
-            }, "1m");
+                playNextInterval();
+            }, "2n");
             Tone.Transport.bpm.value = 50;
             Tone.start();
             Tone.Transport.start();
         }
         function stop() {
+            Tone.Transport.cancel();
             Tone.Transport.stop();
         }
         function checkboxClick(id) {
-            enabledIntervals[id] = document.getElementById(id).checked
-            console.log(`${id} :`, enabledIntervals[id]);
+            checkboxes[id] = document.getElementById(id).checked
+            enabledIntervals = filter(checkboxes);
+            console.log(enabledIntervals);
+            stop();
         }
     </script>
     <body>
@@ -101,5 +119,19 @@
         <label for="minor-third">tercja mała</label>
         <input type="checkbox" name="major-third" id="major-third" checked onclick="checkboxClick('major-third')"/>
         <label for="major-third">tercja wielka</label><br/>
+        <input type="checkbox" name="perfect-fourth" id="perfect-fourth" checked onclick="checkboxClick('perfect-fourth')"/>
+        <label for="perfect-fourth">kwarta czysta</label><br/>
+        <input type="checkbox" name="tritone" id="tritone" checked onclick="checkboxClick('tritone')"/>
+        <label for="tritone">tryton</label><br/>
+        <input type="checkbox" name="perfect-fifth" id="perfect-fifth" checked onclick="checkboxClick('perfect-fifth')"/>
+        <label for="perfect-fifth">kwinta czysta</label><br/>
+        <input type="checkbox" name="minor-sixth" id="minor-sixth" onclick="checkboxClick('minor-sixth')"/>
+        <label for="minor-sixth">seksta mała</label>
+        <input type="checkbox" name="major-sixth" id="major-sixth" onclick="checkboxClick('major-sixth')"/>
+        <label for="major-sixth">seksta wielka</label><br/>
+        <input type="checkbox" name="minor-seventh" id="minor-seventh" onclick="checkboxClick('minor-seventh')"/>
+        <label for="minor-seventh">septyma mała</label>
+        <input type="checkbox" name="major-seventh" id="major-seventh" onclick="checkboxClick('major-seventh')"/>
+        <label for="major-seventh">septyma wielka</label>
     </body>
 </html>
