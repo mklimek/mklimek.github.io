@@ -8,11 +8,15 @@
             body {
                 padding: 5px;
             }
+            button {
+                height: 40px;
+                width: 110px;
+            }
             .group {
                 padding: 5px;
             }
             span,p {
-                font-size: 45px;
+                font-size: 25px;
             }
             input[type='checkbox'] {
                 transform: scale(1.5);
@@ -110,13 +114,17 @@
             Tone.Transport.scheduleRepeat((t) => {
                 playNextInterval();
             }, "2n");
-            Tone.Transport.bpm.value = 50;
+            Tone.Transport.bpm.value = parseInt(document.getElementById('tempo').value);
             Tone.start();
             Tone.Transport.start();
+            document.getElementById('play').disabled = true;
+	        document.getElementById('stop').disabled = false;
         }
         function stop() {
             Tone.Transport.cancel();
             Tone.Transport.stop();
+	        document.getElementById('play').disabled = false;
+	        document.getElementById('stop').disabled = true;
         }
         function checkboxClick(id) {
             checkboxes[id] = document.getElementById(id).checked
@@ -164,17 +172,19 @@
         function goNext() {
             //confirms random chord and make it visible in UI
         }
+        function onSlideChange() {
+            tempo = document.getElementById('tempo').value;
+            document.getElementById('tempo-span').textContent = tempo;
+            Tone.Transport.bpm.value = parseInt(tempo);
+        }
     </script>
     <body>
-
-        <h2>Can you hear it?</h2>
-        <div class="group">
-            <button id="play" onclick="play()" disabled>Loading...</button>
-            <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
-        </div>
         <div class="group">
             <label for="octaves-range">Octaves range</label>
             <input id="octaves-range" name="octaves-range" type="text" value="3-5"><br/>
+            <label for="tempo">Tempo</label>
+            <input type="range" min="20" max="120" value="50" id="tempo" name="tempo" onchange="onSlideChange()" oninput="onSlideChange()" />
+            <span id="tempo-span">50</span>
         </div>
         <div class="group">
             <input type="checkbox" name="minor-second" id="minor-second" checked onclick="checkboxClick('minor-second')"/>
@@ -210,7 +220,11 @@
             <input type="checkbox" name="major-seventh" id="major-seventh" onclick="checkboxClick('major-seventh')"/>
             <label for="major-seventh">septyma wielka</label>
         </div>
-        <h2>Can you sing it?</h2>
+        <div class="group">
+            <button id="play" onclick="play()" disabled>Loading...</button>
+            <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
+        </div>
+        <br/><br/>
         <label for="root">Root</label>
         <input type="text" id="root" name="root" value="C" />
         <div class="group">
