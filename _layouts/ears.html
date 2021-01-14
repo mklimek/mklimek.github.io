@@ -132,7 +132,7 @@
             <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
         </div>
         <div class="group">
-            <label for="octaves-range">Zakres oktaw</label>
+            <label for="octaves-range">Octaves range</label>
             <input id="octaves-range" name="octaves-range" type="text" value="3-5"><br/>
         </div>
         <div class="group">
@@ -168,6 +168,38 @@
             <label for="minor-seventh">septyma mała</label>
             <input type="checkbox" name="major-seventh" id="major-seventh" onclick="checkboxClick('major-seventh')"/>
             <label for="major-seventh">septyma wielka</label>
+        </div>
+        <h2>Can you sing it?</h2>
+        <label for="sing">Root</label>
+        <input type="text" id="sing" name="sing" value="C" />
+        <div class="group">
+            <input type="radio" id="quality-minor" name="quality" value="minor" checked>
+            <label for="quality-minor">Minor</label>
+
+            <input type="radio" id="quality-major" name="quality" value="major">
+            <label for="quality-major">Major</label>
+
+            <input type="radio" id="quality-seventh" name="quality" value="seventh">
+            <label for="quality-seventh">Seventh</label>
+        </div>
+        <div class="group">
+            <input type="radio" id="inversion-base" name="inversion" value="base" checked>
+            <label for="inversion-minor">Base</label>
+
+            <input type="radio" id="inversion-first" name="inversion" value="first">
+            <label for="inversion-first">First</label>
+
+            <input type="radio" id="inversion-second" name="inversion" value="second">
+            <label for="inversion-second">Second</label>
+        </div>
+        <div class="group">
+            <button id="play">Play</button>
+            <button id="play-up">Play Up</button>
+            <button id="play-down">Play Down</button>
+        </div>
+        <div class="group">
+            <button id="play-next">Play Next</button>
+            <button id="go-next">Go Next</button>
         </div>
     </body>
 </html>
