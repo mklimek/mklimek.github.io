@@ -3,11 +3,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <style>
-        span,p {
-            font-size: 45px;
-        }
-    </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                padding: 5px;
+            }
+            .group {
+                padding: 5px;
+            }
+            span,p {
+                font-size: 45px;
+            }
+            input[type='checkbox'] {
+                transform: scale(1.5);
+            }
+            label {
+                font-size: 20px;
+                padding: 5px;
+            }
+        </style>
     </head>
     <script src="{{site.url}}/js/tonejs.js"></script>
     <script src="{{site.url}}/js/tonejs-instruments.js"></script>
@@ -113,31 +127,47 @@
     <body>
 
         <h2>Can you hear it?</h2>
-        <button id="play" onclick="play()" disabled>Loading...</button><br />
-        <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
-        <label for="octaves-range">Zakres oktaw</label>
-        <input id="octaves-range" name="octaves-range" type="text" value="3-5"><br/>
-        <input type="checkbox" name="minor-second" id="minor-second" checked onclick="checkboxClick('minor-second')"/>
-        <label for="minor-second">sekund mała</label>
-        <input type="checkbox" name="major-second" id="major-second" checked onclick="checkboxClick('major-second')"/>
-        <label for="major-second">sekund wielka</label><br/>
-        <input type="checkbox" name="minor-third" id="minor-third" checked onclick="checkboxClick('minor-third')"/>
-        <label for="minor-third">tercja mała</label>
-        <input type="checkbox" name="major-third" id="major-third" checked onclick="checkboxClick('major-third')"/>
-        <label for="major-third">tercja wielka</label><br/>
-        <input type="checkbox" name="perfect-fourth" id="perfect-fourth" checked onclick="checkboxClick('perfect-fourth')"/>
-        <label for="perfect-fourth">kwarta czysta</label><br/>
-        <input type="checkbox" name="tritone" id="tritone" checked onclick="checkboxClick('tritone')"/>
-        <label for="tritone">tryton</label><br/>
-        <input type="checkbox" name="perfect-fifth" id="perfect-fifth" checked onclick="checkboxClick('perfect-fifth')"/>
-        <label for="perfect-fifth">kwinta czysta</label><br/>
-        <input type="checkbox" name="minor-sixth" id="minor-sixth" onclick="checkboxClick('minor-sixth')"/>
-        <label for="minor-sixth">seksta mała</label>
-        <input type="checkbox" name="major-sixth" id="major-sixth" onclick="checkboxClick('major-sixth')"/>
-        <label for="major-sixth">seksta wielka</label><br/>
-        <input type="checkbox" name="minor-seventh" id="minor-seventh" onclick="checkboxClick('minor-seventh')"/>
-        <label for="minor-seventh">septyma mała</label>
-        <input type="checkbox" name="major-seventh" id="major-seventh" onclick="checkboxClick('major-seventh')"/>
-        <label for="major-seventh">septyma wielka</label>
+        <div class="group">
+            <button id="play" onclick="play()" disabled>Loading...</button>
+            <button id="stop" onclick="stop()" disabled>Loading...</button><br/>
+        </div>
+        <div class="group">
+            <label for="octaves-range">Zakres oktaw</label>
+            <input id="octaves-range" name="octaves-range" type="text" value="3-5"><br/>
+        </div>
+        <div class="group">
+            <input type="checkbox" name="minor-second" id="minor-second" checked onclick="checkboxClick('minor-second')"/>
+            <label for="minor-second">sekund mała</label>
+            <input type="checkbox" name="major-second" id="major-second" checked onclick="checkboxClick('major-second')"/>
+            <label for="major-second">sekund wielka</label>
+        </div>
+        <div class="group">
+            <input type="checkbox" name="minor-third" id="minor-third" checked onclick="checkboxClick('minor-third')"/>
+            <label for="minor-third">tercja mała</label>
+            <input type="checkbox" name="major-third" id="major-third" checked onclick="checkboxClick('major-third')"/>
+            <label for="major-third">tercja wielka</label>
+        </div>
+        <div class="group">
+            <input type="checkbox" name="perfect-fourth" id="perfect-fourth" checked onclick="checkboxClick('perfect-fourth')"/>
+            <label for="perfect-fourth">kwarta czysta</label>
+            <input type="checkbox" name="perfect-fifth" id="perfect-fifth" checked onclick="checkboxClick('perfect-fifth')"/>
+            <label for="perfect-fifth">kwinta czysta</label>
+        </div>
+        <div class="group">
+            <input type="checkbox" name="tritone" id="tritone" checked onclick="checkboxClick('tritone')"/>
+            <label for="tritone">tryton</label>
+        </div>
+        <div class="group">
+            <input type="checkbox" name="minor-sixth" id="minor-sixth" onclick="checkboxClick('minor-sixth')"/>
+            <label for="minor-sixth">seksta mała</label>
+            <input type="checkbox" name="major-sixth" id="major-sixth" onclick="checkboxClick('major-sixth')"/>
+            <label for="major-sixth">seksta wielka</label><br/>
+        </div>
+        <div class="group">
+            <input type="checkbox" name="minor-seventh" id="minor-seventh" onclick="checkboxClick('minor-seventh')"/>
+            <label for="minor-seventh">septyma mała</label>
+            <input type="checkbox" name="major-seventh" id="major-seventh" onclick="checkboxClick('major-seventh')"/>
+            <label for="major-seventh">septyma wielka</label>
+        </div>
     </body>
 </html>
