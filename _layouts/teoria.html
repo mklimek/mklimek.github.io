@@ -29,6 +29,7 @@
         </style>
     </head>
     <script src="{{site.url}}/js/teoria.js"></script>
+    <script src="{{site.url}}/js/shared.js"></script>
     <script>
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -43,36 +44,8 @@
             fifthsCheckbox.click();
             console.log(fifthsCheckbox.checked);
         }
-        function generate() {
-            r = getRandomInt(0, 12);
-            roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
-            root = roots[r];
-
-            q = getRandomInt(0, 3);
-            qualities = ['maj7', '-7', '7'];
-            quality = qualities[q];
-
-            
-            fifthsCheckbox = document.getElementById('fifths-enabled');
-            if(fifthsCheckbox.checked)
-            {
-                d = getRandomInt(0, 3);
-                degrees = ['third', 'fifth', 'seventh'];
-            } else {
-                d = getRandomInt(0, 2);
-                degrees = ['third', 'seventh'];
-            }
-            degree = degrees[d];
-
-            console.log(`You need to guess what is ${degree} of ${root}${quality} chord`);
-            return {
-                root: root,
-                quality: quality,
-                degree: degree
-            }
-        }
         function check() {
-            generated = generate();
+            generated = Shared.generate(document.getElementById('fifths-enabled').checked);
             delay = parseInt(document.getElementById('delay').value);
             answerDegree = document.getElementById('answer-degree');
             answerRoot = document.getElementById('answer-root');

@@ -26,6 +26,7 @@
     <script src="{{site.url}}/js/tonejs.js"></script>
     <script src="{{site.url}}/js/tonejs-instruments.js"></script>
     <script src="{{site.url}}/js/teoria.js"></script>
+    <script src="{{site.url}}/js/shared.js"></script>
     <script>
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -120,8 +121,48 @@
         function checkboxClick(id) {
             checkboxes[id] = document.getElementById(id).checked
             enabledIntervals = filter(checkboxes);
-            console.log(enabledIntervals);
+            //console.log(enabledIntervals);
             stop();
+        }
+
+        function playChord() {
+            root = document.getElementById('root').value;
+            quality = document.querySelector('input[name="quality"]:checked').value;
+            inversion = document.querySelector('input[name="inversion"]:checked').value;
+            direction = document.querySelector('input[name="direction"]:checked').value;
+            note = teoria.note(root + '3'); // 3th octave
+            chord = note.chord(quality == '7'? '7' : quality+'7'); // always 7th chords
+            //console.log(chord.toString());
+            piano.toMaster();
+            delay = 0;
+            notes = [];
+            if(direction == 'down') {
+                notes = chord.notes().reverse();
+            } else {
+                notes = chord.notes();
+            }
+            notes.forEach(n => {
+                if(direction == 'base') {
+                    piano.triggerAttack(n.toString());
+                } else {
+                    piano.triggerAttack(n.toString(), '+'+delay);
+                }
+                delay += 0.5; // half second between notes played 
+            })
+        }
+        function playNext() {
+            //randomly pick next chord and play it until goNext is hit
+            generatedChord = Shared.generate(true);
+            console.log(generatedChord);
+            piano.toMaster();
+            note = teoria.note(generatedChord.root + '3') // 3th octave
+            chord = note.chord(generatedChord.quality);
+            chord.notes().forEach(n => {
+                piano.triggerAttack(n.toString());
+            })
+        }
+        function goNext() {
+            //confirms random chord and make it visible in UI
         }
     </script>
     <body>
@@ -170,16 +211,16 @@
             <label for="major-seventh">septyma wielka</label>
         </div>
         <h2>Can you sing it?</h2>
-        <label for="sing">Root</label>
-        <input type="text" id="sing" name="sing" value="C" />
+        <label for="root">Root</label>
+        <input type="text" id="root" name="root" value="C" />
         <div class="group">
-            <input type="radio" id="quality-minor" name="quality" value="minor" checked>
+            <input type="radio" id="quality-minor" name="quality" value="min" checked>
             <label for="quality-minor">Minor</label>
 
-            <input type="radio" id="quality-major" name="quality" value="major">
+            <input type="radio" id="quality-major" name="quality" value="maj">
             <label for="quality-major">Major</label>
 
-            <input type="radio" id="quality-seventh" name="quality" value="seventh">
+            <input type="radio" id="quality-seventh" name="quality" value="7">
             <label for="quality-seventh">Seventh</label>
         </div>
         <div class="group">
@@ -193,13 +234,19 @@
             <label for="inversion-second">Second</label>
         </div>
         <div class="group">
-            <button id="play">Play</button>
-            <button id="play-up">Play Up</button>
-            <button id="play-down">Play Down</button>
+            <input type="radio" id="direction-base" name="direction" value="base" checked>
+            <label for="direction-base">Base</label>
+
+            <input type="radio" id="direction-up" name="direction" value="up">
+            <label for="direction-up">Up</label>
+
+            <input type="radio" id="direction-down" name="direction" value="down">
+            <label for="direction-down">Down</label>
         </div>
         <div class="group">
-            <button id="play-next">Play Next</button>
-            <button id="go-next">Go Next</button>
+            <button id="play" onclick="playChord()">Play</button>
+            <button id="play-next" onclick="playNext()">Play Next</button>
+            <button id="go-next" onclick="goNext()">Go Next</button>
         </div>
     </body>
 </html>
