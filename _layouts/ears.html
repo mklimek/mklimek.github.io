@@ -143,13 +143,37 @@
             //console.log(chord.toString());
             piano.toMaster();
             delay = 0;
-            notes = [];
-            if(direction == 'down') {
-                notes = chord.notes().reverse();
-            } else {
+            notes = chord.notes();
+            if(inversion == 'first') {
+                voicing = chord.voicing();
+                root = voicing[0];
+                voicing.shift() // removes first array element
+                voicing.push(root);
+                voicingSimpleFormat = voicing.map(v => v.toString())
+                chord.voicing(voicingSimpleFormat)
                 notes = chord.notes();
+                notes[notes.length -1] = notes[notes.length -1].interval('A4').interval('A4');
+                console.log(chord.simple());
+            } else if(inversion == 'second') {
+                voicing = chord.voicing();
+                root = voicing[0];
+                third = voicing[1];
+                voicing.shift() // removes first array element
+                voicing.shift() // removes second array element
+                voicing.push(root);
+                voicing.push(third);
+                voicingSimpleFormat = voicing.map(v => v.toString())
+                chord.voicing(voicingSimpleFormat)
+                notes = chord.notes();
+                notes[notes.length -1] = notes[notes.length -1].interval('A4').interval('A4');
+                notes[notes.length -2] = notes[notes.length -2].interval('A4').interval('A4');
+                console.log(chord.simple());
+            }
+            if(direction == 'down') {
+                notes = notes.reverse();
             }
             notes.forEach(n => {
+                console.log(n.toString());
                 if(direction == 'base') {
                     piano.triggerAttack(n.toString());
                 } else {
