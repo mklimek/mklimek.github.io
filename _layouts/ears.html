@@ -67,6 +67,7 @@
         var piano = SampleLibrary.load({
             instruments: "piano"
         });
+        piano.volume.value = -5; // prevents distortion for chords
         var checkboxes = [];
         var enabledIntervals = [];
         var index = 0;
@@ -78,8 +79,8 @@
                 start: [2, 3],
                 connect: true,
                 range: {
-                    'min': [1, 1],
-                    'max': [5]
+                    'min': [2, 1],
+                    'max': [4]
                 }
             });
             console.log(octavesRange.noUiSlider.get());
@@ -135,7 +136,7 @@
         }
 
         function play() {
-            piano.toMaster();
+            piano.toDestination();
             index = 0; 
             Tone.Transport.scheduleRepeat((t) => {
                 playNextInterval();
@@ -167,7 +168,7 @@
             note = teoria.note(root + '3'); // 3th octave
             chord = note.chord(quality == '7'? '7' : quality+'7'); // always 7th chords
             //console.log(chord.toString());
-            piano.toMaster();
+            piano.toDestination();
             delay = 0;
             notes = chord.notes();
             if(inversion == 'first') {
@@ -208,11 +209,13 @@
                 delay += 0.5; // half second between notes played 
             })
         }
+        generatedChord = null;
         function playNext() {
             //randomly pick next chord and play it until goNext is hit
-            generatedChord = Shared.generate(true);
-            console.log(generatedChord);
-            piano.toMaster();
+            if(generatedChord == null) {
+                generatedChord = Shared.generate(true);
+            }
+            piano.toDestination();
             note = teoria.note(generatedChord.root + '3') // 3th octave
             chord = note.chord(generatedChord.quality);
             chord.notes().forEach(n => {
@@ -221,6 +224,15 @@
         }
         function goNext() {
             //confirms random chord and make it visible in UI
+            document.getElementById('root').value = generatedChord.root;
+            if(generatedChord.quality == 'maj7') {
+                document.getElementById('quality-major').checked = true;
+            } else if(generatedChord.quality == '-7') {
+                document.getElementById('quality-minor').checked = true;
+            } else if(generatedChord.quality == '7') {
+                document.getElementById('quality-seventh').checked = true;
+            }
+            generatedChord = null; // allow to generate a new chord
         }
         function onSlideChange() {
             tempo = document.getElementById('tempo').value;
@@ -298,6 +310,11 @@
             <label for="inversion-second">Second</label>
         </div>
         <div class="group">
+            <button id="play" onclick="playChord()">Play</button>
+            <button id="play-next" onclick="playNext()">Play Next</button>
+            <button id="go-next" onclick="goNext()">Check</button>
+        </div>
+        <div class="group">
             <input type="radio" id="direction-base" name="direction" value="base" checked>
             <label for="direction-base">Base</label>
 
@@ -306,11 +323,6 @@
 
             <input type="radio" id="direction-down" name="direction" value="down">
             <label for="direction-down">Down</label>
-        </div>
-        <div class="group">
-            <button id="play" onclick="playChord()">Play</button>
-            <button id="play-next" onclick="playNext()">Play Next</button>
-            <button id="go-next" onclick="goNext()">Go Next</button>
         </div>
     </body>
 </html>
