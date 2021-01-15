@@ -4,6 +4,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{site.url}}/css/nouislider.min.css">
         <style>
             body {
                 padding: 5px;
@@ -14,6 +15,9 @@
             }
             .group {
                 padding: 5px;
+            }
+            div#octaves-range {
+                width: 200px;
             }
             span,p {
                 font-size: 25px;
@@ -31,6 +35,7 @@
     <script src="{{site.url}}/js/tonejs-instruments.js"></script>
     <script src="{{site.url}}/js/teoria.js"></script>
     <script src="{{site.url}}/js/shared.js"></script>
+    <script src="{{site.url}}/js/nouislider.min.js"></script>
     <script>
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -67,6 +72,21 @@
         var index = 0;
 
         Tone.loaded().then(() => {
+            var octavesRange = document.getElementById('octaves-range');
+
+            noUiSlider.create(octavesRange, {
+                start: [2, 3],
+                connect: true,
+                range: {
+                    'min': [1, 1],
+                    'max': [5]
+                }
+            });
+            console.log(octavesRange.noUiSlider.get());
+            setOctaveRangeText(octavesRange.noUiSlider.get())
+            octavesRange.noUiSlider.on('update', function (values, handle) {
+                setOctaveRangeText(octavesRange.noUiSlider.get())
+            });
 	        document.getElementById('play').textContent = 'Play';
 	        document.getElementById('play').disabled = false;
 	        document.getElementById('stop').textContent = 'Stop';
@@ -81,6 +101,11 @@
             checkboxClick('perfect-fifth');
         });
 
+        function setOctaveRangeText(octavesRangeValues) {
+            document.getElementById('octave-min').textContent = parseInt(octavesRangeValues[0])
+            document.getElementById('octave-max').textContent = parseInt(octavesRangeValues[1])
+        }
+
         function playNextInterval() {
             interval = enabledIntervals[index];
             console.log(`interval is ${interval}`);
@@ -88,7 +113,8 @@
             roots = ['C', 'Db', 'D', 'E', 'Eb', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
             randomRoot = roots[x];
 
-            beginEnd = document.getElementById('octaves-range').value.split('-');
+            var octavesRange = document.getElementById('octaves-range');
+            beginEnd = octavesRange.noUiSlider.get();
             beginEnd[0] = parseInt(beginEnd[0])
             beginEnd[1] = parseInt(beginEnd[1])
             diff = beginEnd[1] + 1 - beginEnd[0];
@@ -204,8 +230,8 @@
     </script>
     <body>
         <div class="group">
-            <label for="octaves-range">Octaves range</label>
-            <input id="octaves-range" name="octaves-range" type="text" value="3-5"><br/>
+            <label for="octaves-range">Octaves: <span id="octave-min"></span>-<span id="octave-max"></span></label>
+            <div id="octaves-range"></div>
             <label for="tempo">Tempo</label>
             <input type="range" min="20" max="120" value="50" id="tempo" name="tempo" onchange="onSlideChange()" oninput="onSlideChange()" />
             <span id="tempo-span">50</span>
